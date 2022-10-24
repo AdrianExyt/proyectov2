@@ -18,7 +18,10 @@ export class FormComponent implements OnInit {
 
   postUserFormData(formData: {textInputName: string, textInputSurname: string, emailInput: string, passwordInput: string, countryInput: string}){
     console.warn(formData);
-    this.http.post("http://127.0.0.1:8000/form", formData).subscribe((res) => {
+
+    const formDataJson = JSON.stringify(formData)
+
+    this.http.post("http://127.0.0.1:8000/form", formDataJson).subscribe((res) => {
       console.log(res);
     });
   }
