@@ -1,28 +1,8 @@
-<div class="m-5">
-  <form>
-    <div class="mb-3">
-      <label for="name" class="form-label">Nombre</label>
-      <input type="text" class="form-control" id="textInputName" aria-describedby="textInputName">
-    </div>
-    <div class="mb-3">
-      <label for="surname" class="form-label">Apellido</label>
-      <input type="text" class="form-control" id="textInputSurname" aria-describedby="textInputSurname">
-    </div>
-    <div class="mb-3">
-      <label for="email" class="form-label">Correo electronico</label>
-      <input type="email" class="form-control" id="emailInput" placeholder="nombre@ejemplo.com">
-    </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-control" id="passwordInput">
-    </div>
-    <div>
-      <label for="city" class="form-label">Pais</label>
-      <select class="form-select" aria-label="Default select example">
-        <option *ngFor="let country of Countries" value={{country.name_en}}>{{ country.name_es }}</option>
-      </select>
-    </div>
-    <br>
-    <button type="submit" class="btn btn-primary">Enviar</button>
-  </form>
-</div>
+<nav>
+    <ul>
+      <li><a routerLink="/form-component" routerLinkActive="active">form Component</a></li>
+      <li><a routerLink="/search-component" routerLinkActive="active">search Component</a></li>
+    </ul>
+  </nav>
+  <!-- The routed views render in the <router-outlet>-->
+  <router-outlet></router-outlet>
