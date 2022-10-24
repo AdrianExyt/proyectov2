@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import data from '../../assets/countries.json';
 
@@ -15,11 +16,16 @@ export class FormComponent implements OnInit {
 
   Countries: COUNTRY[] = data;
 
-  postUserFormData(formData:any){
+  postUserFormData(formData: {textInputName: string, textInputSurname: string, emailInput: string, passwordInput: string, countryInput: string}){
     console.warn(formData);
+    this.http.post("http://127.0.0.1:8000/form", formData).subscribe((res) => {
+      console.log(res);
+    });
   }
 
-  constructor() { }
+  constructor(private http: HttpClient) { 
+
+  }
 
   ngOnInit(): void {
 
