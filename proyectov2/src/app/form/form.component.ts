@@ -15,6 +15,10 @@ export class FormComponent implements OnInit {
 
   Countries: COUNTRY[] = data;
 
+  postUserFormData(formData:any){
+    console.warn(formData);
+  }
+
   constructor() { }
 
   ngOnInit(): void {

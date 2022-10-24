@@ -8,6 +8,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { SearchComponent } from './search/search.component';
 import { FormComponent } from './form/form.component';
 import { RouterModule, Routes } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+
 
 const routes: Routes = [];
 
@@ -21,7 +23,8 @@ const routes: Routes = [];
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    FormsModule
   ],
   exports: [RouterModule],
   providers: [],
