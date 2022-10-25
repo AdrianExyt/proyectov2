@@ -1,7 +1,12 @@
+import os
 from typing import Union
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from google.cloud import datastore
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./creds.json"
+datastore_client = datastore.Client()
 
 app = FastAPI()
 
@@ -13,14 +18,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class DataForm(BaseModel):
-    model: str
-    textInputName: str
-    textInputSurname: str
-    emailInput: str
-    passwordInput: str
-    countryInput: str
-
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
@@ -29,7 +26,21 @@ def read_root():
 @app.post("/form")
 async def read_form(info: Request):
     req_info = await info.json()
-    print(req_info)
+
+    print(req_info["textInputName"])
+
+    key = datastore_client.key("UserData")
+    entity = datastore.Entity(key)
+    entity.update({
+        "textInputName": req_info["textInputName"],
+        "textInputSurname": req_info["textInputSurname"],
+        "emailInput": req_info["emailInput"],
+        "passwordInput": req_info["passwordInput"],
+        "countryInput": req_info["countryInput"]
+    })
+
+    datastore_client.put(entity)
+
     return {
         "status": "succes",
         "data": req_info
