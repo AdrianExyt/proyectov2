@@ -63,3 +63,22 @@ def fetch_data():
     print(result)
 
     return result
+
+@app.get("/query/{filter_str}")
+def fetch_filter_data(filter_str):
+
+    query_data = datastore_client.query(kind='UserData')
+    print(filter_str)
+    query_data.add_filter("textInputName", "=", filter_str)
+    data = query_data.fetch()
+
+    dataJsonInput: dict
+    count = 0
+
+    result = []
+
+    for x in data:
+        result.append({"textInputName": x['textInputName'], "passwordInput": x['passwordInput']})
+    print(result)
+
+    return result
