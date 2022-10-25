@@ -1,5 +1,5 @@
 from typing import Union
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -27,7 +27,10 @@ def read_root():
 
 
 @app.post("/form")
-def read_form(dataForm: DataForm):
-    print("AAAAAAAAAAAAAAAAAAAAAAAAA")
-    print(dataForm)
-    return {"status": "succes"}
+async def read_form(info: Request):
+    req_info = await info.json()
+    print(req_info)
+    return {
+        "status": "succes",
+        "data": req_info
+    }
