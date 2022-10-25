@@ -1,3 +1,4 @@
+import json
 import os
 from typing import Union
 from fastapi import FastAPI, Request
@@ -45,3 +46,20 @@ async def read_form(info: Request):
         "status": "succes",
         "data": req_info
     }
+
+
+@app.get("/query")
+def fetch_data():
+    query_data = datastore_client.query(kind='UserData')
+    data = query_data.fetch()
+
+    dataJsonInput: dict
+    count = 0
+
+    result = []
+
+    for x in data:
+        result.append({"textInputName": x['textInputName'], "passwordInput": x['passwordInput']})
+    print(result)
+
+    return result

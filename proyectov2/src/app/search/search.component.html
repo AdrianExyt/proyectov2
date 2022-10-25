@@ -1,9 +1,27 @@
 <div class="m-5">
-    <form>
+    <form (ngSubmit)="getData()">
         <div class="form-group mb-4">
             <label for="exampleInputEmail1">Consulta</label>
             <input type="text" class="form-control" id="inputText" aria-describedby="textHelp">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Contraseña</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let x of myData$">
+            <th scope="row">-</th>
+            <td>{{x.textInputName}}</td>
+            <td>{{x.passwordInput}}</td>
+          </tr>
+        </tbody>
+      </table>
 </div>
