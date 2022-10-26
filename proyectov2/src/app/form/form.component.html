@@ -22,6 +22,10 @@
           <option *ngFor="let country of Countries" value={{country.name_en}}>{{ country.name_es }}</option>
         </select>
       </div>
+      <div>
+        <label for="file" class="form-label">Archivo</label>
+        <input (change)="sendFileData($event)" #imageInput ngModel name="fileInput" type="file" class="form-control" id="fileInput">
+      </div>
       <br>
       <button type="submit" class="btn btn-primary">Enviar</button>
     </form>

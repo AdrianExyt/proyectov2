@@ -1,13 +1,16 @@
+import base64
 import json
 import os
-from typing import Union
-from fastapi import FastAPI, Request
+from typing import Any, Union
+from fastapi import FastAPI, Request, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from google.cloud import datastore
+from google.cloud import datastore, storage
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./creds.json"
 datastore_client = datastore.Client()
+storage_client = storage.Client()
+
 
 app = FastAPI()
 
@@ -82,3 +85,17 @@ def fetch_filter_data(filter_str):
     print(result)
 
     return result
+
+@app.post("/img")
+def upload_blob(thumbnail: UploadFile = File(...)):
+    print("THUMBNAAAAIL")
+    print(thumbnail)
+
+    bucket = storage_client.bucket("proyectov2storage")
+    blob = bucket.blob(thumbnail.filename)
+    print("FILEEEE")
+    print(thumbnail.file)
+    fileBytes = base64.b64encode(thumbnail.file)
+    print("BYTEEEEES")
+    print(fileBytes)
+    return blob.upload_from_filename(thumbnail)

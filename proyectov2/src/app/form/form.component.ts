@@ -6,6 +6,9 @@ interface COUNTRY {
   name_en: string;  
   name_es: string;
 }
+class ImageSnippet {
+  constructor(public src: string, public file: File) {}
+}
 
 @Component({
   selector: 'app-form',
@@ -15,15 +18,41 @@ interface COUNTRY {
 export class FormComponent implements OnInit {
 
   Countries: COUNTRY[] = data;
+  
 
   postUserFormData(formData: {textInputName: string, textInputSurname: string, emailInput: string, passwordInput: string, countryInput: string}){
     console.warn(formData);
+    
 
     const formDataJson = JSON.stringify(formData)
 
     this.http.post("http://127.0.0.1:8000/form", formDataJson).subscribe((res) => {
       console.log(res);
     });
+  }
+
+  sendFileData(event: any){
+    let fileList: FileList = event.target.files;
+    console.log("aaaaaaaaaaaaaa");
+    console.log(fileList);
+    
+    if(fileList.length > 0) {
+      const file: File = event.target.files[0]
+      console.log(file);
+      const formData = new FormData();
+      formData.append("thumbnail", file);
+        
+        //let formData:FormData = new FormData();
+        //formData.append('uploadFile', file, file.name);
+        //let headers = new Headers();
+        //headers.append('Content-Type', 'multipart/form-data');
+        //headers.append('Accept', 'application/json');
+        
+        this.http.post("http://127.0.0.1:8000/img", formData).subscribe((res) => {
+          console.log(res);
+        })
+    }
+    
   }
 
   constructor(private http: HttpClient) { 
