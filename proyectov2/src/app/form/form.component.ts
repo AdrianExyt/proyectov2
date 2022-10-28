@@ -20,24 +20,28 @@ export class FormComponent implements OnInit {
   Countries: COUNTRY[] = data;
   
 
-  postUserFormData(formData: {textInputName: string, textInputSurname: string, emailInput: string, passwordInput: string, countryInput: string}){
+  postUserFormData(formData: {textInputName: string, textInputSurname: string, emailInput: string, passwordInput: string, countryInput: string, imgStored: boolean}, event: any){
     console.warn(formData);
-    
+    let fileLista: File = event.target[5].files[0];
+    console.warn(fileLista);
+    if(fileLista){
+      formData.imgStored = true;
+    } else {
+      formData.imgStored = false;
+    }
 
     const formDataJson = JSON.stringify(formData)
 
     this.http.post("http://127.0.0.1:8000/form", formDataJson).subscribe((res) => {
       console.log(res);
     });
+
+    this.sendFileData(fileLista)
   }
 
-  sendFileData(event: any){
-    let fileList: FileList = event.target.files;
-    console.log("aaaaaaaaaaaaaa");
-    console.log(fileList);
+  sendFileData(file: File){
     
-    if(fileList.length > 0) {
-      const file: File = event.target.files[0]
+    if(file) {
       console.log(file);
       const formData = new FormData();
       formData.append("thumbnail", file);

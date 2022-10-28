@@ -32,6 +32,10 @@ export class SearchComponent implements OnInit {
     return this.myData;
   }
 
+  downloadFile(fileDownload: any){
+
+  }
+
   ngOnInit(): void {
     this.getData();
   }

@@ -1,5 +1,5 @@
 <div class="m-5">
-    <form #userForm="ngForm" (ngSubmit)="postUserFormData(userForm.value)">
+    <form #userForm="ngForm" (ngSubmit)="postUserFormData(userForm.value, $event)">
       <div class="mb-3">
         <label for="name" class="form-label">Nombre</label>
         <input ngModel name="textInputName" type="text" class="form-control" id="textInputName" aria-describedby="textInputName">
@@ -24,7 +24,7 @@
       </div>
       <div>
         <label for="file" class="form-label">Archivo</label>
-        <input (change)="sendFileData($event)" #imageInput ngModel name="fileInput" type="file" class="form-control" id="fileInput">
+        <input #imageInput ngModel name="fileInput" type="file" class="form-control" id="fileInput">
       </div>
       <br>
       <button type="submit" class="btn btn-primary">Enviar</button>

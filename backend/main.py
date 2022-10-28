@@ -1,4 +1,5 @@
 import base64
+from cmath import log
 import json
 import os
 from typing import Any, Union
@@ -10,6 +11,7 @@ from google.cloud import datastore, storage
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./creds.json"
 datastore_client = datastore.Client()
 storage_client = storage.Client()
+last_id: str
 
 
 app = FastAPI()
@@ -29,6 +31,7 @@ def read_root():
 
 @app.post("/form")
 async def read_form(info: Request):
+    global last_id
     req_info = await info.json()
 
     print(req_info["textInputName"])
@@ -40,10 +43,14 @@ async def read_form(info: Request):
         "textInputSurname": req_info["textInputSurname"],
         "emailInput": req_info["emailInput"],
         "passwordInput": req_info["passwordInput"],
-        "countryInput": req_info["countryInput"]
+        "countryInput": req_info["countryInput"],
+        "imgStored": req_info["imgStored"]
     })
 
     datastore_client.put(entity)
+    last_id = entity.id
+    print("LAAAAAAST IDDDDD")
+    print(last_id)
 
     return {
         "status": "succes",
@@ -56,13 +63,10 @@ def fetch_data():
     query_data = datastore_client.query(kind='UserData')
     data = query_data.fetch()
 
-    dataJsonInput: dict
-    count = 0
-
     result = []
 
     for x in data:
-        result.append({"textInputName": x['textInputName'], "passwordInput": x['passwordInput']})
+        result.append({"textInputName": x['textInputName'], "passwordInput": x['passwordInput'], "id": x.id, "imgStored":x['imgStored']})
     print(result)
 
     return result
@@ -81,21 +85,17 @@ def fetch_filter_data(filter_str):
     result = []
 
     for x in data:
-        result.append({"textInputName": x['textInputName'], "passwordInput": x['passwordInput']})
+        result.append({"textInputName": x['textInputName'], "passwordInput": x['passwordInput'], "id": x.id, "imgStored":x['imgStored']})
     print(result)
 
     return result
 
 @app.post("/img")
 def upload_blob(thumbnail: UploadFile = File(...)):
-    print("THUMBNAAAAIL")
     print(thumbnail)
 
-    bucket = storage_client.bucket("proyectov2storage")
-    blob = bucket.blob(thumbnail.filename)
-    print("FILEEEE")
-    print(thumbnail.file)
-    fileBytes = base64.b64encode(thumbnail.file)
-    print("BYTEEEEES")
-    print(fileBytes)
-    return blob.upload_from_filename(thumbnail)
+    bucket = storage_client.bucket("proyectov2img")
+    print(last_id)
+    blob = bucket.blob(str(last_id) + ".jpg")
+    
+    return blob.upload_from_file(thumbnail.file)

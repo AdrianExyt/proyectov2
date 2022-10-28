@@ -21,6 +21,11 @@
             <th scope="row">-</th>
             <td>{{x.textInputName}}</td>
             <td>{{x.passwordInput}}</td>
+            <td>
+              <div *ngIf="x.imgStored; then thenBlock else elseBlock"></div>
+              <ng-template #thenBlock ><a href="https://storage.googleapis.com/proyectov2img/{{x.id}}.jpg"><button #thenBlock type="button" class="btn btn-secondary">Descargar</button></a></ng-template>
+              <ng-template #elseBlock ><button #elseBlock disabled type="button" class="btn btn-secondary">Descargar</button></ng-template>
+            </td>
           </tr>
         </tbody>
       </table>
