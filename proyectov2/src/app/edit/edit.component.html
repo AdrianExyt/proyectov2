@@ -1,5 +1,5 @@
 <div class="m-5">
-    <form #userForm="ngForm" (ngSubmit)="postUserFormData(userForm.value, $event)">
+    <form #userForm="ngForm" (ngSubmit)="editUserFormData(userForm.value)">
       <div class="mb-3">
         <label for="name" class="form-label">Nombre</label>
         <input ngModel name="textInputName" type="text" class="form-control" id="textInputName" aria-describedby="textInputName">
@@ -22,11 +22,7 @@
           <option *ngFor="let country of Countries" value={{country.name_es}}>{{ country.name_es }}</option>
         </select>
       </div>
-      <div>
-        <label for="file" class="form-label">Archivo</label>
-        <input #imageInput ngModel name="fileInput" type="file" class="form-control" id="fileInput">
-      </div>
       <br>
-      <button type="submit" class="btn btn-primary">Enviar</button>
+      <button type="submit" class="btn btn-success">Guardar</button>
     </form>
   </div>

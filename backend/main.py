@@ -1,5 +1,6 @@
 import base64
 from cmath import log
+from http import client
 import json
 import os
 from typing import Any, Union
@@ -34,8 +35,6 @@ async def read_form(info: Request):
     global last_id
     req_info = await info.json()
 
-    print(req_info["textInputName"])
-
     key = datastore_client.key("UserData")
     entity = datastore.Entity(key)
     entity.update({
@@ -49,7 +48,6 @@ async def read_form(info: Request):
 
     datastore_client.put(entity)
     last_id = entity.id
-    print("LAAAAAAST IDDDDD")
     print(last_id)
 
     return {
@@ -99,3 +97,28 @@ def upload_blob(thumbnail: UploadFile = File(...)):
     blob = bucket.blob(str(last_id) + ".jpg")
     
     return blob.upload_from_file(thumbnail.file)
+
+@app.get("/edit/{id}")
+def get_id(id):
+    print("IIIIIIIIIIIIIIIIIDDDDDDDDDDDDD")
+    print(id)
+    first_key = datastore_client.key("UserData", int(id))
+    task = datastore_client.get(first_key)
+    print(task)
+    return task
+
+@app.put("edit/{id}")
+async def put_id(id, info: Request):
+
+    req_info = await info.json()
+
+    with datastore_client.transaction():
+        first_key = datastore_client.key("UserData", int(id))
+        task = datastore_client.get(first_key)
+
+        task["textInputName"] = req_info["textInputName"]
+        task["textInputSurname"] = req_info["textInputSurname"]
+        task["emailInput"] = req_info["emailInput"]
+        task["passwordInput"] = req_info["passwordInput"]
+        task["countryInput"] = req_info["countryInput"]
+        task["imgStored"] = req_info["imgStored"]

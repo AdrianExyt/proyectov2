@@ -9,6 +9,7 @@ import { SearchComponent } from './search/search.component';
 import { FormComponent } from './form/form.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { EditComponent } from './edit/edit.component';
 
 
 const routes: Routes = [];
@@ -17,7 +18,8 @@ const routes: Routes = [];
   declarations: [
     AppComponent,
     SearchComponent,
-    FormComponent
+    FormComponent,
+    EditComponent
   ],
   imports: [
     BrowserModule,
