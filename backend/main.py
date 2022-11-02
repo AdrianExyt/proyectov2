@@ -100,14 +100,12 @@ def upload_blob(thumbnail: UploadFile = File(...)):
 
 @app.get("/edit/{id}")
 def get_id(id):
-    print("IIIIIIIIIIIIIIIIIDDDDDDDDDDDDD")
-    print(id)
     first_key = datastore_client.key("UserData", int(id))
     task = datastore_client.get(first_key)
     print(task)
     return task
 
-@app.put("edit/{id}")
+@app.put("/edit/{id}")
 async def put_id(id, info: Request):
 
     req_info = await info.json()
@@ -116,9 +114,13 @@ async def put_id(id, info: Request):
         first_key = datastore_client.key("UserData", int(id))
         task = datastore_client.get(first_key)
 
+        print(first_key)
+        print(task)
+        print(req_info)
+
         task["textInputName"] = req_info["textInputName"]
         task["textInputSurname"] = req_info["textInputSurname"]
         task["emailInput"] = req_info["emailInput"]
         task["passwordInput"] = req_info["passwordInput"]
         task["countryInput"] = req_info["countryInput"]
-        task["imgStored"] = req_info["imgStored"]
+        datastore_client.put(task)

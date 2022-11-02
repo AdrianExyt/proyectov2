@@ -2,7 +2,7 @@
     <form #userForm="ngForm" (ngSubmit)="editUserFormData(userForm.value)">
       <div class="mb-3">
         <label for="name" class="form-label">Nombre</label>
-        <input ngModel name="textInputName" type="text" class="form-control" id="textInputName" aria-describedby="textInputName">
+        <input value="{{User_data.textInputName}}" name="textInputName" type="text" class="form-control" id="textInputName" aria-describedby="textInputName">
       </div>
       <div class="mb-3">
         <label for="surname" class="form-label">Apellido</label>
